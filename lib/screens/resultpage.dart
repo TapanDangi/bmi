@@ -96,7 +96,7 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ),
                 Text(
-                  '${this.bmi.truncateToDouble()}',
+                  '${this.bmi.ceilToDouble()}',
                   style: const TextStyle(
                     fontSize: 40,
                     fontStyle: FontStyle.italic,
