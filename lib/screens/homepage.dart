@@ -1,6 +1,7 @@
 import 'package:bmi/screens/resultpage.dart';
 import 'package:flutter/material.dart';
 import 'package:bmi/components/customcard.dart';
+import 'package:bmi/constant.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,13 +11,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int height = 0;
+  Gender gender_selected = Gender.male;
+  int height = 180;
+  int weight = 50;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BMI Calculation'),
+        title: const Text('BMI Calculator'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -24,17 +28,29 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             flex: 3,
             child: Row(
-              children: const [
+              children: [
                 Expanded(
                   child: GenderCard(
                     gender: 'MALE',
                     icon: Icons.male,
+                    isSelected: gender_selected == Gender.male ? true : false,
+                    onTap: () {
+                      setState(() {
+                        gender_selected = Gender.male;
+                      });
+                    },
                   ),
                 ),
                 Expanded(
                   child: GenderCard(
                     gender: 'FEMALE',
                     icon: Icons.female,
+                    isSelected: gender_selected == Gender.female ? true : false,
+                    onTap: () {
+                      setState(() {
+                        gender_selected = Gender.female;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -56,17 +72,37 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             flex: 4,
             child: Row(
-              children: const [
+              children: [
                 Expanded(
                   child: AWCard(
                     title: 'AGE',
-                    value: 20,
+                    value: age,
+                    onPressedMinus: () {
+                      setState(() {
+                        age--;
+                      });
+                    },
+                    onPressedPlus: () {
+                      setState(() {
+                        age++;
+                      });
+                    },
                   ),
                 ),
                 Expanded(
                   child: AWCard(
                     title: 'WEIGHT',
-                    value: 50,
+                    value: weight,
+                    onPressedMinus: () {
+                      setState(() {
+                        weight--;
+                      });
+                    },
+                    onPressedPlus: () {
+                      setState(() {
+                        weight++;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -81,7 +117,12 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const ResultPage();
+                      return ResultPage(
+                        gender: gender_selected,
+                        age: age,
+                        weight: weight,
+                        height: height,
+                      );
                     },
                   ),
                 );

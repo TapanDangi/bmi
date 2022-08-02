@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:bmi/constant.dart';
 
 class GenderCard extends StatelessWidget {
-  const GenderCard({Key? key, required this.gender, required this.icon})
+  const GenderCard(
+      {Key? key,
+      required this.gender,
+      required this.icon,
+      required this.onTap,
+      required this.isSelected})
       : super(key: key);
   final IconData icon;
   final String gender;
+  final onTap;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: this.onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xff2a2e31),
+          color: isSelected ? cCardPrimaryBGColorSelected : cCardPrimaryBGColor,
           borderRadius: BorderRadius.circular(30),
         ),
         padding: const EdgeInsets.symmetric(
@@ -42,15 +51,23 @@ class GenderCard extends StatelessWidget {
 }
 
 class AWCard extends StatelessWidget {
-  const AWCard({Key? key, this.title = '', this.value = 0}) : super(key: key);
+  const AWCard(
+      {Key? key,
+      this.title = '',
+      this.value = 0,
+      required this.onPressedMinus,
+      required this.onPressedPlus})
+      : super(key: key);
   final String title;
   final int value;
+  final onPressedMinus;
+  final onPressedPlus;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xffaa2e31),
+        color: cCardPrimaryBGColor,
         borderRadius: BorderRadius.circular(30),
       ),
       padding: const EdgeInsets.symmetric(
@@ -75,10 +92,16 @@ class AWCard extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              ButtonRound(text: '-'),
+            children: [
+              ButtonRound(
+                text: '-',
+                onPressed: this.onPressedMinus,
+              ),
               SizedBox(width: 20),
-              ButtonRound(text: '+'),
+              ButtonRound(
+                text: '+',
+                onPressed: this.onPressedPlus,
+              ),
             ],
           ),
         ],
@@ -88,21 +111,23 @@ class AWCard extends StatelessWidget {
 }
 
 class ButtonRound extends StatelessWidget {
-  const ButtonRound({Key? key, this.text = ''}) : super(key: key);
+  const ButtonRound({Key? key, this.text = '', required this.onPressed})
+      : super(key: key);
   final String text;
+  final onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
+      width: 55,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: this.onPressed,
         child: Padding(
           padding: const EdgeInsets.all(3),
           child: Text(
             this.text,
             style: const TextStyle(
-              fontSize: 25,
+              fontSize: 30,
             ),
           ),
         ),
@@ -128,7 +153,7 @@ class SliderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xffaa2e31),
+        color: cCardPrimaryBGColor,
         borderRadius: BorderRadius.circular(50),
       ),
       padding: const EdgeInsets.symmetric(
@@ -190,12 +215,12 @@ class BottomButton extends StatelessWidget {
       : super(key: key);
   final String title;
   final onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: this.onTap,
       child: Container(
-        height: 60,
         color: Colors.blue,
         padding: const EdgeInsets.all(10),
         child: Text(
